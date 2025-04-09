@@ -1,1 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FIZI</title><link>https://hoangnguyen689.github.io/fizi/</link><description>Recent content on FIZI</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 01 Apr 2025 10:52:10 +0900</lastBuildDate><atom:link href="https://hoangnguyen689.github.io/fizi/index.xml" rel="self" type="application/rss+xml"/><item><title>Hello W</title><link>https://hoangnguyen689.github.io/fizi/posts/hello-w/</link><pubDate>Tue, 01 Apr 2025 10:52:10 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/posts/hello-w/</guid><description>&lt;p>Hello, everybody!&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FIZI</title><link>https://hoangnguyen689.github.io/fizi/</link><description>Recent content on FIZI</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 01 Apr 2025 10:52:10 +0900</lastBuildDate><atom:link href="https://hoangnguyen689.github.io/fizi/index.xml" rel="self" type="application/rss+xml"/><item><title>Batch records creation with Go and Postgres</title><link>https://hoangnguyen689.github.io/fizi/posts/batch_records_creation_with_go_and_postgres/</link><pubDate>Tue, 01 Apr 2025 10:52:10 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/posts/batch_records_creation_with_go_and_postgres/</guid><description>&lt;p>Today I write a small note about creating multiple records in SQL database.
+The stack include:&lt;/p>
+&lt;ul>
+&lt;li>Postgres&lt;/li>
+&lt;li>Golang&lt;/li>
+&lt;li>Docker (Podman)&lt;/li>
+&lt;/ul>
+&lt;h2 id="setup">Setup&lt;/h2>
+&lt;p>We will use the simple &lt;code class="code-inline language-go">&lt;span style="color:#1f2328">users&lt;/span>&lt;/code> table, with 2 main fields:&lt;/p>
+&lt;ul>
+&lt;li>id (text): primary key&lt;/li>
+&lt;li>name (text)&lt;/li>
+&lt;/ul>
+&lt;h2 id="batch-records-creation-in-postgres">Batch records creation in Postgres&lt;/h2>
+&lt;p>We will start with the singular simplest SQL query.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sql" data-lang="sql">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">INSERT&lt;/span> &lt;span style="color:#66d9ef">INTO&lt;/span> users &lt;span style="color:#66d9ef">VALUES&lt;/span> (&lt;span style="color:#e6db74">&amp;#39;1&amp;#39;&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;User 1&amp;#39;&lt;/span>);
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This query wil create a record in &lt;code>users&lt;/code> table. What if we want to add many records.
+The easiest way is to do what is succeeded again&lt;/p></description></item></channel></rss>
