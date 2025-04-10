@@ -2,7 +2,7 @@
 date = '2025-04-10T10:00:00+09:00'
 draft = false
 title = 'Batch records creation with Go and Postgres'
-tags = ['postgres','psql','pg_bulkload','golang','pgx','sqlc']
+tags = ['postgres','psql','pg_bulkload','unnest','golang','pgx','batch','sqlc']
 +++
 
 Let's talk about 2 problems in this post.
@@ -76,7 +76,7 @@ The INSERT command has long time execution and the limitation about the command 
 
 The COPY command is native supported in Postgres. It is more efficient than INSERT command, because:
 - It doesn't need to parse the SQL syntax. Just read the data file directly.
-- It read the file by block, consume less memory (eliminate the hardware limitation).
+- It read the file by block, consumes less memory (eliminate the hardware limitation).
 - It can disable WAL to move faster.
 
 ### pg_bulkload
@@ -197,7 +197,7 @@ BenchmarkAllMethods/Unnest-Size-1000000-12                             1        
 With 1 million records, COPY is the fastest method with 5.4 seconds, the Unnest is slower but quite near with 7.1 seconds.
 The batch insert is the slowest with 14.8 seconds and the huge memory usage of 1.3GB.
 
-However the unnest method also consume a lot of memory, about 567MB. Compare to COPY with just 96MB, it is not so good.
+However the unnest method also consumes a lot of memory, about 567MB. Compare to COPY with just 96MB, it is not so good.
 
 How about the size of 100 records?
 
