@@ -6,7 +6,7 @@ The stack include:&lt;/p>
 &lt;li>Docker (Podman)&lt;/li>
 &lt;/ul>
 &lt;h2 id="setup">Setup&lt;/h2>
-&lt;p>We will use the simple &lt;code>users&lt;/code> table, with 2 main fields:&lt;/p>
+&lt;p>We will use the simple &lt;code class="code-inline language-go">&lt;span style="color:#1f2328">users&lt;/span>&lt;/code> table, with 2 main fields:&lt;/p>
 &lt;ul>
 &lt;li>id (text): primary key&lt;/li>
 &lt;li>name (text)&lt;/li>
