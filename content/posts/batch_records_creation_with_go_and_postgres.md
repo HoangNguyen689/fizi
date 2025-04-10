@@ -5,161 +5,116 @@ title = 'Batch records creation with Go and Postgres'
 tags = ['postgres','golang','pgx','sqlc']
 +++
 
-Today I write a small note about creating multiple records in SQL database.
-The stack include:
-- Postgres
-- Golang
-- Docker (Podman)
+Let's talk about 2 problems in this post.
+- batch insert in Postgres
+- batch insert in SQLC (with Golang)
 
-## Setup
+# Resource preparation
 
-We will use the simple {{< highlight go "hl_inline=true, style=github" >}}users{{< /highlight >}} table, with 2 main fields:
-- id (text): primary key
-- name (text)
+To simplify, we will use an **users** table with 4 fields: id(text, primary key), name(text), created_at and updated_at.
+The insert data can be generated with [**pg-batch-play**](https://github.com/HoangNguyen689/pg-batch-play) tool.
 
-## Batch records creation in Postgres
+```bash
+# generate 1M users data in SQL format with single INSERT command
 
-We will start with the singular simplest SQL query.
-
-```sql
-INSERT INTO users VALUES ('1', 'User 1');
+go run main.go genbatchcreateuser -s 1000000 -f sql -t singular
 ```
 
-This query wil create a record in `users` table. What if we want to add many records.
-The easiest way is to do what is succeeded again
-
-```sql
-INSERT INTO users VALUES ('3', 'User 3');
-INSERT INTO users VALUES ('4', 'User 4');
-INSERT INTO users VALUES ('5', 'User 5');
-```
-
-If we run these queries, the response time still fast. Because our `users` table is simple, has two fields, has no index, and we only insert three records.
-
-Although the response time is small, we still can measure it. One of the way is using psql.
-To make it easy to compare, we store the queries in file.
-- `singular_user.sql` for 1 query.
-- `multiple_3_users.sql` for 3 queries.
-- `multiple_1000_users.sql` for 1000 queries.
-- and so on ...
-
-Let's go inside psql console and enable timing
+Besides, we will also use **psql** tool to observe, so let's enable the timing option.
 
 ```psql
 db=# \timing
 Timing is on.
 ```
 
-And we can test the time each case
-```psql
-db=# \i singular_user.sql
-INSERT 0 1
-Time: 4.669 ms
-```
+# Batch insert in Postgres
 
-```psql
-db=# \i multiple_3_users.sql
-INSERT 0 1
-Time: 1.303 ms
-INSERT 0 1
-Time: 0.605 ms
-INSERT 0 1
-Time: 0.536 ms
-```
+## INSERT command
 
-As we can see, although we put multiple queries in one file, they are still processed in turn.
-In each query, the database system does the sequence of actions.
-
-<TODO: Insert image>
-```
-SQL string
-    ↓
-[Parse]
-    ↓
-[Rewrite]
-    ↓
-[Plan]
-    ↓
-[Acquire locks]
-    ↓
-[Execute]
-    ↓
-[Return result]
-```
-
-Although the queries format seems similar, when receiving one query, all the above actions must be done.
-Can we improve it by the similarity in the above queires.
-Yes, we can. Using `Prapared statement` is the key. By preparing the format of the queries, we can by pass the `Plan` step, and excute it immediately.
+We can use INSERT command to insert many records to Postgres.
 
 ```sql
-PREPARE insert_user(varchar, varchar) AS
-INSERT INTO users (id, name) VALUES ($1, $2);
-
-EXECUTE insert_user('3', 'User 3');
-EXECUTE insert_user('4', 'User 4');
-EXECUTE insert_user('5', 'User 5');
+INSERT INTO users VALUES
+    ('1', 'User 1'),
+    ('2', 'User 2'),
+    ('3', 'User 3');
 ```
 
-We can even do it better. `INSERT` provides a way to create multiple values in one query.
-```sql
-INSERT INTO users (id, name) VALUES
-    ('3', 'User 3'),
-    ('4', 'User 4'),
-    ('5', 'User 5');
+The above command is fast with small number of records. How about 1 million user records?
+
+```psql
+db=# \i batch_create_1000000_users.sql
+
+psql:_out/batch_create_1000000_users.sql:1: server closed the connection unexpectedly
+        This probably means the server terminated abnormally
+        before or while processing the request.
+psql:_out/batch_create_1000000_users.sql:1: error: connection to server was lost
+make: *** [ssh/db] Error 2
 ```
 
-By using this way, we can save many "duplicate step" inside the database system, as well as round time trip between client and database system server.
+I have run the Postgres server with 2GB memory and 6vCPUs.
+The Postgres server received a signal kill. When observing the **docker stats**, there has been slightly changed in memory usage.
+Let's increase the memory to 8GB and try again.
 
-Cool!
+```psql
+db=# \i batch_create_1000000_users.sql
 
-Are you curious that how many values can we insert in one query?
-Of course, there is a limit. You can check it [here](https://www.postgresql.org/docs/current/limits.html?utm_source=chatgpt.com)
+INSERT 0 1000000
+Time: 6114.668 ms (00:06.115)
+```
 
-The field limit is 1GB. So technically, we can't insert more than 1GB of data in one query. But if we look further, the limitation is more strict.
+About 6 seconds. Not so bad. Technicaly, we total can use INSERT to do the task. With powerful hardware, the limitation is expanded.
+Of course, Postgres has [the hard limit](https://www.postgresql.org/docs/current/limits.html). But before reaching the 1GB query limitation, the hardware limitations likely will be reached first.
 
-The query is store in **StringInfo** , which [currently limited to a length of 1GB](https://github.com/postgres/postgres/blob/master/src/include/lib/stringinfo.h). Also, the **MaxAllocSize** is [1GB](https://github.com/postgres/postgres/blob/3c6e8c123896584f1be1fe69aaf68dcb5eb094d5/src/include/utils/memutils.h#L40). So, the actual data which can be inserted is smaller than the 1GB limitation.
+Who concerns about the query string limitation can read the code here:
+- [StringInfo](https://github.com/postgres/postgres/blob/master/src/include/lib/stringinfo.h)
+- [MaxAllocSize](https://github.com/postgres/postgres/blob/master/src/include/utils/memutils.h#L43)
 
-However, 1GB of text query is big. We will reach the mitation of the resource (RAM, CPU, ...etc) before we reach the 1GB limit. Want to try?
+The INSERT command has long time execution and the limitation about the query string (as well as the hardware). To gain more performance, we can use COPY command or 3rd party tool like pg_bulkload.
 
-Let's create a docker machine that has 2GB memory and 6 vCPUs.
-You can test with any size of data you want. But we will test with 500.000 records and 1.000.000 records.
-With an empty users table, the 500.000 records is quite fast,but the 1.000.000 records is cracked.
-When seeing the postgres log, just the signal kill is displayed. It usually mean we get Out of Memory (OOM).
-We cab see memory usage by `docker stats` command. And we can see the raise of memory in instant.
+## COPY command
 
-Let raise the memory of docker instant to 8GB and try again. Now, we can insert 1.000.000 records in one query quite fast.
+The COPY command is native supported in Postgres. It is more efficient than INSERT command, because:
+- It doesn't need to parse the SQL syntax. Just read the data file directly.
+- It read the file by block, consume less memory.(eliminate the hardware limitation)
+- It can disalbe WAL to move faster.
 
-But it seems that the memory dependency is not good. Any other ways to achieve large batch insertions?
+## pg_bulkload
 
-There are 2 ways.
-- Use COPY command
-- Use 3rd tool: pg_bulkload
-
-The COPY command is a fast way to put a large data set into a table.
-
-Why is COPY fast?
-
-It pass the data directly into the table.
-
-How about pg_bulkload?
-
+The pg_bulkload is a 3rd party tool. To use it, we need to install it along side with Postgres.
 It even faster than COPY command in case of large data set.
+- It doesn't call the SQL command, ignore the parse and planner.
+- It directly write to table heap file, not through the Postgres engine.
+- It can bypass WAL,
+- No trigger, no constraints, no index when loading.
 
-It process directly with the table heap file, has option to by pass WAL, no trigger, no constraints, no index when loading.
+Of course, the data must be clean. With WAL off, there's no way to rollback. So we need to be careful.
 
-Here is the benchmark of inserting 1.000.000 user records.
+## Benchmark
 
-| Method | Command | Time |
-|--------|---------|------|
-| INSERT | time podman exec -i postgres_instance psql -U postgres -d db < _out/batch_create_1000000_users.sql |0.04s user 0.05s system 1% cpu 7.065 total|
-| COPY   | time podman exec -i postgres_instance psql -U postgres -d db -c "\COPY users(id, name) FROM '/tmp/batch_create_1000000_users.csv' CSV" | 0.03s user 0.02s system 2% cpu 2.148 total |
-| pg_bulkload WAL on | time podman exec -i postgres_instance pg_bulkload -d db -U postgres /tmp/bulkload_on.ctl | 0.03s user 0.02s system 2% cpu 2.089 total |
-| pg_bulkload WAL off | time podman exec -it postgres_instance pg_bulkload -d db -U postgres /tmp/bulkload_off.ctl | 0.03s user 0.02s system 2% cpu 1.776 total |
-| pg_bulkload parralel | time podman exec -it postgres_instance pg_bulkload -d db -U postgres /tmp/bulkload_parralel.ctl | 0.02s user 0.01s system 1% cpu 1.552 total |
+Let's compare the performance with inserting 1 million user records.
+Here is the result. We will use this alias:
 
-As the above result, we can see the INSERT multiple values is slowest, took 7.065 seconds.
-The COPY command is faster, took 2.148 seconds.
-The pg_bulkload is the fastest, took 1.552 seconds.
+| Alias                       | Command                                                           |
+|-----------------------------|-------------------------------------------------------------------|
+| execute_psql_command        |time docker exec -i postgres_instance psql -U postgres -d db       |
+| execute_pg_bulkload_command |time docker exec -i postgres_instance pg_bulkload -d db -U postgres|
+
+
+| Method               | Command                                                               | Time (second) |
+|----------------------|-----------------------------------------------------------------------|---------------|
+| INSERT               | execute_psql_command < _out/batch_create_1000000_users.sql            |7.065          |
+| COPY                 | execute_psql_command -c "\COPY users(id, name) FROM '/users.csv' CSV" |2.148          |
+| pg_bulkload WAL on   | execute_pg_bulkload_command /tmp/bulkload_on.ctl                      |2.089          |
+| pg_bulkload WAL off  | execute_pg_bulkload_command /tmp/bulkload_off.ctl                     |1.776          |
+| pg_bulkload parralel | execute_pg_bulkload_command /tmp/bulkload_parralel.ctl                |1.552          |
+
+At this amout of data, the pg_buldload is faster than COPY, but not much.
+The pg_buldload parralel won the race.
+
+# Batch insert in SQLC
+
+
 
 ## Golang implementation
 
