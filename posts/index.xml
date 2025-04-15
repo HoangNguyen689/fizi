@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on FIZI</title>
+    <link>https://hoangnguyen689.github.io/fizi/posts/</link>
+    <description>Recent content in Posts on FIZI</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 10 Apr 2025 10:00:00 +0900</lastBuildDate>
+    <atom:link href="https://hoangnguyen689.github.io/fizi/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Batch records creation with Go and Postgres</title>
+      <link>https://hoangnguyen689.github.io/fizi/posts/batch_records_creation_with_go_and_postgres/</link>
+      <pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate>
+      <guid>https://hoangnguyen689.github.io/fizi/posts/batch_records_creation_with_go_and_postgres/</guid>
+      <description>&lt;p&gt;Let&amp;rsquo;s talk about 2 problems in this post.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;batch insert in Postgres&lt;/li&gt;&#xA;&lt;li&gt;batch insert in SQLC (with Golang)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;resource-preparation&#34;&gt;Resource preparation&lt;/h2&gt;&#xA;&lt;p&gt;To simplify, we will use an &lt;strong&gt;users&lt;/strong&gt; table with 4 fields: id(text, primary key), name(text), created_at and updated_at.&#xA;The insert data can be generated with &lt;a href=&#34;https://github.com/HoangNguyen689/pg-batch-play&#34;&gt;&lt;strong&gt;pg-batch-play&lt;/strong&gt;&lt;/a&gt; tool.&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# generate 1M users data in SQL format with single INSERT command&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;go run main.go genbatchcreateuser -s &lt;span style=&#34;color:#ae81ff&#34;&gt;1000000&lt;/span&gt; -f sql -t singular&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Besides, we will also use &lt;strong&gt;psql&lt;/strong&gt; tool to observe, let&amp;rsquo;s enable the timing option.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
