@@ -1,1 +1,103 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tags on FIZI</title><link>https://hoangnguyen689.github.io/fizi/tags/</link><description>Recent content in Tags on FIZI</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Thu, 10 Apr 2025 10:00:00 +0900</lastBuildDate><atom:link href="https://hoangnguyen689.github.io/fizi/tags/index.xml" rel="self" type="application/rss+xml"/><item><title>Batch</title><link>https://hoangnguyen689.github.io/fizi/tags/batch/</link><pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/tags/batch/</guid><description/></item><item><title>Golang</title><link>https://hoangnguyen689.github.io/fizi/tags/golang/</link><pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/tags/golang/</guid><description/></item><item><title>Pg_bulkload</title><link>https://hoangnguyen689.github.io/fizi/tags/pg_bulkload/</link><pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/tags/pg_bulkload/</guid><description/></item><item><title>Pgx</title><link>https://hoangnguyen689.github.io/fizi/tags/pgx/</link><pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/tags/pgx/</guid><description/></item><item><title>Postgres</title><link>https://hoangnguyen689.github.io/fizi/tags/postgres/</link><pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/tags/postgres/</guid><description/></item><item><title>Psql</title><link>https://hoangnguyen689.github.io/fizi/tags/psql/</link><pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/tags/psql/</guid><description/></item><item><title>Sqlc</title><link>https://hoangnguyen689.github.io/fizi/tags/sqlc/</link><pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/tags/sqlc/</guid><description/></item><item><title>Unnest</title><link>https://hoangnguyen689.github.io/fizi/tags/unnest/</link><pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/tags/unnest/</guid><description/></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on FIZI</title>
+    <link>http://localhost:1313/fizi/tags/</link>
+    <description>Recent content in Tags on FIZI</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 16 Apr 2025 00:23:00 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/fizi/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker</title>
+      <link>http://localhost:1313/fizi/tags/docker/</link>
+      <pubDate>Wed, 16 Apr 2025 00:23:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/docker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Lima</title>
+      <link>http://localhost:1313/fizi/tags/lima/</link>
+      <pubDate>Wed, 16 Apr 2025 00:23:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/lima/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rootless</title>
+      <link>http://localhost:1313/fizi/tags/rootless/</link>
+      <pubDate>Wed, 16 Apr 2025 00:23:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/rootless/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Uidmap</title>
+      <link>http://localhost:1313/fizi/tags/uidmap/</link>
+      <pubDate>Wed, 16 Apr 2025 00:23:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/uidmap/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>User Namespace</title>
+      <link>http://localhost:1313/fizi/tags/user-namespace/</link>
+      <pubDate>Wed, 16 Apr 2025 00:23:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/user-namespace/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Batch</title>
+      <link>http://localhost:1313/fizi/tags/batch/</link>
+      <pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/batch/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Golang</title>
+      <link>http://localhost:1313/fizi/tags/golang/</link>
+      <pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/golang/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pg_bulkload</title>
+      <link>http://localhost:1313/fizi/tags/pg_bulkload/</link>
+      <pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/pg_bulkload/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pgx</title>
+      <link>http://localhost:1313/fizi/tags/pgx/</link>
+      <pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/pgx/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Postgres</title>
+      <link>http://localhost:1313/fizi/tags/postgres/</link>
+      <pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/postgres/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Psql</title>
+      <link>http://localhost:1313/fizi/tags/psql/</link>
+      <pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/psql/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sqlc</title>
+      <link>http://localhost:1313/fizi/tags/sqlc/</link>
+      <pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/sqlc/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Unnest</title>
+      <link>http://localhost:1313/fizi/tags/unnest/</link>
+      <pubDate>Thu, 10 Apr 2025 10:00:00 +0900</pubDate>
+      <guid>http://localhost:1313/fizi/tags/unnest/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

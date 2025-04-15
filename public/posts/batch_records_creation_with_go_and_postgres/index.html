@@ -1,5 +1,31 @@
-<!doctype html><html class="not-ready lg:text-base" style=--bg:#faf8f1 lang=en-us dir=ltr><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><title>Batch records creation with Go and Postgres-FIZI</title>
-<meta name=theme-color><meta name=description content="Let&rsquo;s talk about 2 problems in this post.
+<!doctype html>
+
+
+
+
+
+
+
+<html
+  class="not-ready lg:text-base"
+  style="--bg:#faf8f1"
+  lang="en-us"
+  dir="ltr"
+><head><script src="/fizi/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=fizi/livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Batch records creation with Go and Postgres-FIZI</title>
+
+  
+  <meta name="theme-color" />
+
+  <meta name="description" content="Let&rsquo;s talk about 2 problems in this post.
 
 batch insert in Postgres
 batch insert in SQLC (with Golang)
@@ -10,23 +36,172 @@ The insert data can be generated with pg-batch-play tool.
 # generate 1M users data in SQL format with single INSERT command
 
 go run main.go genbatchcreateuser -s 1000000 -f sql -t singular
-Besides, we will also use psql tool to observe, let&rsquo;s enable the timing option."><meta name=author content="FIZI"><link rel="preload stylesheet" as=style href=https://hoangnguyen689.github.io/fizi/main.min.css><link rel=preload as=image href=https://hoangnguyen689.github.io/fizi/theme.svg><link rel=preload as=image href=https://hoangnguyen689.github.io/fizi/twitter.svg><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css integrity=sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js integrity=sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",()=>renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1}],throwOnError:!1}))</script><link rel=icon href=https://hoangnguyen689.github.io/fizi/favicon.ico><link rel=apple-touch-icon href=https://hoangnguyen689.github.io/fizi/apple-touch-icon.png><meta name=generator content="Hugo 0.145.0"><meta itemprop=name content="Batch records creation with Go and Postgres"><meta itemprop=description content="Let’s talk about 2 problems in this post.
-batch insert in Postgres batch insert in SQLC (with Golang) Resource preparation To simplify, we will use an users table with 4 fields: id(text, primary key), name(text), created_at and updated_at. The insert data can be generated with pg-batch-play tool.
-# generate 1M users data in SQL format with single INSERT command go run main.go genbatchcreateuser -s 1000000 -f sql -t singular Besides, we will also use psql tool to observe, let’s enable the timing option."><meta itemprop=datePublished content="2025-04-10T10:00:00+09:00"><meta itemprop=dateModified content="2025-04-10T10:00:00+09:00"><meta itemprop=wordCount content="1203"><meta itemprop=keywords content="Postgres,Psql,Pg_bulkload,Unnest,Golang,Pgx,Batch,Sqlc"><meta property="og:url" content="https://hoangnguyen689.github.io/fizi/posts/batch_records_creation_with_go_and_postgres/"><meta property="og:site_name" content="FIZI"><meta property="og:title" content="Batch records creation with Go and Postgres"><meta property="og:description" content="Let’s talk about 2 problems in this post.
-batch insert in Postgres batch insert in SQLC (with Golang) Resource preparation To simplify, we will use an users table with 4 fields: id(text, primary key), name(text), created_at and updated_at. The insert data can be generated with pg-batch-play tool.
-# generate 1M users data in SQL format with single INSERT command go run main.go genbatchcreateuser -s 1000000 -f sql -t singular Besides, we will also use psql tool to observe, let’s enable the timing option."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-04-10T10:00:00+09:00"><meta property="article:modified_time" content="2025-04-10T10:00:00+09:00"><meta property="article:tag" content="Postgres"><meta property="article:tag" content="Psql"><meta property="article:tag" content="Pg_bulkload"><meta property="article:tag" content="Unnest"><meta property="article:tag" content="Golang"><meta property="article:tag" content="Pgx"><meta name=twitter:card content="summary"><meta name=twitter:title content="Batch records creation with Go and Postgres"><meta name=twitter:description content="Let’s talk about 2 problems in this post.
-batch insert in Postgres batch insert in SQLC (with Golang) Resource preparation To simplify, we will use an users table with 4 fields: id(text, primary key), name(text), created_at and updated_at. The insert data can be generated with pg-batch-play tool.
-# generate 1M users data in SQL format with single INSERT command go run main.go genbatchcreateuser -s 1000000 -f sql -t singular Besides, we will also use psql tool to observe, let’s enable the timing option."><link rel=canonical href=https://hoangnguyen689.github.io/fizi/posts/batch_records_creation_with_go_and_postgres/></head><body class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"><header class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"><div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto"><a class="-translate-y-[1px] text-2xl font-medium" href=https://hoangnguyen689.github.io/fizi/>FIZI</a><div class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.svg)_left_center/cover_no-repeat] dark:invert dark:[background-position:right]" role=button aria-label=Dark></div></div><div class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8" role=button aria-label=Menu></div><script>const htmlClass=document.documentElement.classList;setTimeout(()=>{htmlClass.remove("not-ready")},10);const btnMenu=document.querySelector(".btn-menu");btnMenu.addEventListener("click",()=>{htmlClass.toggle("open")});const metaTheme=document.querySelector('meta[name="theme-color"]'),lightBg="#faf8f1".replace(/"/g,""),setDark=e=>{metaTheme.setAttribute("content",e?"#000":lightBg),htmlClass[e?"add":"remove"]("dark"),localStorage.setItem("dark",e)},darkScheme=window.matchMedia("(prefers-color-scheme: dark)");if(htmlClass.contains("dark"))setDark(!0);else{const e=localStorage.getItem("dark");setDark(e?e==="true":darkScheme.matches)}darkScheme.addEventListener("change",e=>{setDark(e.matches)});const btnDark=document.querySelector(".btn-dark");btnDark.addEventListener("click",()=>{setDark(localStorage.getItem("dark")!=="true")})</script><div class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"><nav class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"><a class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6" style=--url:url(./twitter.svg) href=https://twitter.com/ndhoang96 target=_blank rel=me>twitter</a></nav></div></header><main class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"><article><header class=mb-14><h1 class="my-0! pb-2.5">Batch records creation with Go and Postgres</h1><div class="text-xs antialiased opacity-60"><time>Apr 10, 2025</time></div></header><section><p>Let&rsquo;s talk about 2 problems in this post.</p><ul><li>batch insert in Postgres</li><li>batch insert in SQLC (with Golang)</li></ul><h2 id=resource-preparation>Resource preparation</h2><p>To simplify, we will use an <strong>users</strong> table with 4 fields: id(text, primary key), name(text), created_at and updated_at.
-The insert data can be generated with <a href=https://github.com/HoangNguyen689/pg-batch-play><strong>pg-batch-play</strong></a> tool.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># generate 1M users data in SQL format with single INSERT command</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>go run main.go genbatchcreateuser -s <span style=color:#ae81ff>1000000</span> -f sql -t singular
-</span></span></code></pre></div><p>Besides, we will also use <strong>psql</strong> tool to observe, let&rsquo;s enable the timing option.</p><pre tabindex=0><code class=language-psql data-lang=psql>db=# \timing
+Besides, we will also use psql tool to observe, let&rsquo;s enable the timing option." />
+  <meta name="author" content="FIZI" /><link rel="preload stylesheet" as="style" href="http://localhost:1313/fizi/main.min.css" />
+
+  
+  <link rel="preload" as="image" href="http://localhost:1313/fizi/theme.svg" />
+
+  
+
+  <link rel="preload" as="image" href="http://localhost:1313/fizi/twitter.svg" />
+
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css"
+  integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI"
+  crossorigin="anonymous"
+/>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js"
+  integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t"
+  crossorigin="anonymous"
+></script>
+<script
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"
+  integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05"
+  crossorigin="anonymous"
+></script><script>
+  document.addEventListener('DOMContentLoaded', () =>
+    renderMathInElement(document.body, {
+      
+      
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ],
+      
+      throwOnError: false,
+    }),
+  );
+</script>
+
+
+  
+  <link
+    rel="icon"
+    href="http://localhost:1313/fizi/favicon.ico"
+  />
+  <link
+    rel="apple-touch-icon"
+    href="http://localhost:1313/fizi/apple-touch-icon.png"
+  />
+
+  <meta name="generator" content="Hugo 0.145.0">
+</head>
+<body
+    class="bg-(--bg) text-black antialiased duration-200 ease-out [-webkit-tap-highlight-color:transparent] dark:text-white"
+  ><header
+  class="mx-auto flex h-[4.5rem] max-w-(--w) px-8 whitespace-nowrap lg:justify-center"
+>
+  <div class="relative z-50 flex items-center ltr:mr-auto rtl:ml-auto">
+    <a
+      class="-translate-y-[1px] text-2xl font-medium"
+      href="http://localhost:1313/fizi/"
+      >FIZI</a
+    >
+    <div
+      class="btn-dark text-[0px] ltr:ml-4 rtl:mr-4 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.svg)_left_center/cover_no-repeat] dark:invert dark:[background-position:right]"
+      role="button"
+      aria-label="Dark"
+    ></div>
+  </div>
+
+  <div
+    class="btn-menu relative z-50 flex h-[4.5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden ltr:-mr-8 rtl:-ml-8"
+    role="button"
+    aria-label="Menu"
+  ></div>
+
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = '#faf8f1'.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full flex-col justify-center bg-(--bg) pb-16 duration-200 select-none lg:static lg:h-auto lg:flex-row lg:bg-transparent! lg:pb-0 lg:transition-none"
+  ><nav
+      class="mt-12 flex justify-center space-x-10 lg:mt-0 lg:items-center ltr:lg:ml-14 rtl:space-x-reverse rtl:lg:mr-14 dark:invert"
+    >
+      <a
+        class="h-7 w-7 text-[0px] [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./twitter.svg)"
+        href="https://twitter.com/ndhoang96"
+        target="_blank"
+        rel="me"
+      >twitter</a>
+    </nav>
+  </div>
+</header>
+<main
+      class="prose prose-neutral dark:prose-invert relative mx-auto min-h-[calc(100vh-9rem)] max-w-(--w) px-8 pt-14 pb-16"
+    ><article>
+  <header class="mb-14">
+    <h1 class="my-0! pb-2.5">Batch records creation with Go and Postgres</h1><div class="text-xs antialiased opacity-60"><time>Apr 10, 2025</time></div></header>
+
+  <section><p>Let&rsquo;s talk about 2 problems in this post.</p>
+<ul>
+<li>batch insert in Postgres</li>
+<li>batch insert in SQLC (with Golang)</li>
+</ul>
+<h2 id="resource-preparation">Resource preparation</h2>
+<p>To simplify, we will use an <strong>users</strong> table with 4 fields: id(text, primary key), name(text), created_at and updated_at.
+The insert data can be generated with <a href="https://github.com/HoangNguyen689/pg-batch-play"><strong>pg-batch-play</strong></a> tool.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># generate 1M users data in SQL format with single INSERT command</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>go run main.go genbatchcreateuser -s <span style="color:#ae81ff">1000000</span> -f sql -t singular
+</span></span></code></pre></div><p>Besides, we will also use <strong>psql</strong> tool to observe, let&rsquo;s enable the timing option.</p>
+<pre tabindex="0"><code class="language-psql" data-lang="psql">db=# \timing
 Timing is on.
-</code></pre><h2 id=batch-insert-in-postgres>Batch insert in Postgres</h2><h3 id=insert-command>INSERT command</h3><p>We can use INSERT command to insert many records to Postgres.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> users <span style=color:#66d9ef>VALUES</span>
-</span></span><span style=display:flex><span>    (<span style=color:#e6db74>&#39;1&#39;</span>, <span style=color:#e6db74>&#39;User 1&#39;</span>),
-</span></span><span style=display:flex><span>    (<span style=color:#e6db74>&#39;2&#39;</span>, <span style=color:#e6db74>&#39;User 2&#39;</span>),
-</span></span><span style=display:flex><span>    (<span style=color:#e6db74>&#39;3&#39;</span>, <span style=color:#e6db74>&#39;User 3&#39;</span>);
-</span></span></code></pre></div><p>The above command is fast with small number of records. How about 1 million user records?</p><pre tabindex=0><code class=language-psql data-lang=psql>db=# \i batch_create_1000000_users.sql
+</code></pre><h2 id="batch-insert-in-postgres">Batch insert in Postgres</h2>
+<h3 id="insert-command">INSERT command</h3>
+<p>We can use INSERT command to insert many records to Postgres.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> users <span style="color:#66d9ef">VALUES</span>
+</span></span><span style="display:flex;"><span>    (<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;User 1&#39;</span>),
+</span></span><span style="display:flex;"><span>    (<span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;User 2&#39;</span>),
+</span></span><span style="display:flex;"><span>    (<span style="color:#e6db74">&#39;3&#39;</span>, <span style="color:#e6db74">&#39;User 3&#39;</span>);
+</span></span></code></pre></div><p>The above command is fast with small number of records. How about 1 million user records?</p>
+<pre tabindex="0"><code class="language-psql" data-lang="psql">db=# \i batch_create_1000000_users.sql
 
 psql:_out/batch_create_1000000_users.sql:1: server closed the connection unexpectedly
         This probably means the server terminated abnormally
@@ -35,56 +210,214 @@ psql:_out/batch_create_1000000_users.sql:1: error: connection to server was lost
 make: *** [ssh/db] Error 2
 </code></pre><p>I have run the Postgres server with 2GB memory and 6vCPUs.
 The Postgres server received a signal kill. When observing the <strong>docker stats</strong>, there has been slightly changed in memory usage.
-Let&rsquo;s increase the memory to 8GB and try again.</p><pre tabindex=0><code class=language-psql data-lang=psql>db=# \i batch_create_1000000_users.sql
+Let&rsquo;s increase the memory to 8GB and try again.</p>
+<pre tabindex="0"><code class="language-psql" data-lang="psql">db=# \i batch_create_1000000_users.sql
 
 INSERT 0 1000000
 Time: 6114.668 ms (00:06.115)
 </code></pre><p>About 6 seconds. Not so bad. Technicaly, we total can use INSERT to do the task. With powerful hardware, the limitation is expanded.
-Of course, Postgres has <a href=https://www.postgresql.org/docs/current/limits.html>the hard limit</a>. But before reaching the 1GB command limitation, the hardware limitations likely will be reached first.</p><p>Who concerns about the command string limitation can read the code here:</p><ul><li><a href=https://github.com/postgres/postgres/blob/master/src/include/lib/stringinfo.h>StringInfo</a></li><li><a href=https://github.com/postgres/postgres/blob/master/src/include/utils/memutils.h#L43>MaxAllocSize</a></li></ul><p>The INSERT command has long time execution and the limitation about the command string (as well as the hardware). To gain more performance, we can use COPY command or 3rd party tool like pg_bulkload.</p><h3 id=copy-command>COPY command</h3><p>The COPY command is native supported in Postgres. It is more efficient than INSERT command, because:</p><ul><li>It doesn&rsquo;t need to parse the SQL syntax. Just read the data file directly.</li><li>It read the file by block, consumes less memory (eliminate the hardware limitation).</li><li>It can disable WAL to move faster.</li></ul><h3 id=pg_bulkload>pg_bulkload</h3><p>The pg_bulkload is a 3rd party tool. To use it, we need to install it along side with Postgres.
-It even faster than COPY command in case of large data set.</p><ul><li>It doesn&rsquo;t call the SQL command, ignore the parse and planner.</li><li>It directly write to table heap file, not through the Postgres engine.</li><li>It can bypass WAL,</li><li>No trigger, no constraints, no index when loading.</li></ul><p>Of course, the data must be clean. With WAL off, there&rsquo;s no way to rollback. So we need to be careful.</p><h3 id=benchmark>Benchmark</h3><p>Let&rsquo;s compare the performance with inserting 1 million user records.
-Here is the result. We will use this alias:</p><table><thead><tr><th>Alias</th><th>Command</th></tr></thead><tbody><tr><td>execute_psql_command</td><td>time docker exec -i postgres_instance psql -U postgres -d db</td></tr><tr><td>execute_pg_bulkload_command</td><td>time docker exec -i postgres_instance pg_bulkload -d db -U postgres</td></tr></tbody></table><table><thead><tr><th>Method</th><th>Command</th><th>Time (second)</th></tr></thead><tbody><tr><td>INSERT</td><td>execute_psql_command &lt; _out/batch_create_1000000_users.sql</td><td>7.065</td></tr><tr><td>COPY</td><td>execute_psql_command -c &ldquo;\COPY users(id, name) FROM &lsquo;/users.csv&rsquo; CSV&rdquo;</td><td>2.148</td></tr><tr><td>pg_bulkload WAL on</td><td>execute_pg_bulkload_command /tmp/bulkload_on.ctl</td><td>2.089</td></tr><tr><td>pg_bulkload WAL off</td><td>execute_pg_bulkload_command /tmp/bulkload_off.ctl</td><td>1.776</td></tr><tr><td>pg_bulkload parralel</td><td>execute_pg_bulkload_command /tmp/bulkload_parralel.ctl</td><td>1.552</td></tr></tbody></table><p>At this amout of data, the pg_buldload is faster than COPY, but not much.
-The pg_buldload parralel won the race.</p><h2 id=batch-insert-in-sqlc>Batch insert in SQLC</h2><p><a href=https://github.com/sqlc-dev/sqlc>SQLC</a> is the tool generates Go code from SQL queries.
-<a href=https://github.com/jackc/pgx>pgx</a> is the Postgres driver for Go.</p><p>Why this combo?</p><ul><li>Postgres has one more famous lib, it is <a href=https://github.com/lib/pq>pq</a>. But it is currently in maintenance mode and also recommends to use pgx.</li><li>To deal with SQL, there are many opinions. Golang libs also provide ORM (like gorm). Or we can handle the SQL directly. Combining of generating code and writing SQL, SQLC is a good choice for simplicy and efficiency.</li></ul><h3 id=pgx-batch-opepration>pgx batch opepration</h3><p>As mentioned above, with small amount of data, we can use INSERT command, even if they are separated like this:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> users (id, name) <span style=color:#66d9ef>VALUES</span> (<span style=color:#e6db74>&#39;1&#39;</span>, <span style=color:#e6db74>&#39;User 1&#39;</span>);
-</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> users (id, name) <span style=color:#66d9ef>VALUES</span> (<span style=color:#e6db74>&#39;2&#39;</span>, <span style=color:#e6db74>&#39;User 2&#39;</span>);
-</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> users (id, name) <span style=color:#66d9ef>VALUES</span> (<span style=color:#e6db74>&#39;3&#39;</span>, <span style=color:#e6db74>&#39;User 3&#39;</span>);
-</span></span></code></pre></div><p>It is <em>acceptable</em>. When a SQL command is executed, Postgres will do a chain.</p><p>SQL string → [Parse] → [Rewrite] → [Plan] → [Acquire locks] → [Execute] → [Return result]</p><p>pgx provides the <strong>batch</strong> definition, that allows multiple commands to be executed in a single round trip.
-That makes the time processing reduced a little bit, but the Postgres server is still doing the same work for each command.</p><p>We can write the SQL like this to use the batch operation from sqlc + pgx:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#75715e>-- name: BatchInsertUsers :batchexec
-</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> users (id, name)  <span style=color:#66d9ef>VALUES</span> (<span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>1</span>, <span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>2</span>)
-</span></span><span style=display:flex><span><span style=color:#66d9ef>ON</span> CONFLICT (id) <span style=color:#66d9ef>DO</span> <span style=color:#66d9ef>NOTHING</span>;
-</span></span></code></pre></div><p>We can tool it a little bit more with <strong>PREPARE STATEMENT</strong>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>PREPARE</span> insert_user(varchar, varchar) <span style=color:#66d9ef>AS</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> users (id, name) <span style=color:#66d9ef>VALUES</span> (<span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>1</span>, <span style=color:#960050;background-color:#1e0010>$</span><span style=color:#ae81ff>2</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>EXECUTE</span> insert_user(<span style=color:#e6db74>&#39;1&#39;</span>, <span style=color:#e6db74>&#39;User 1&#39;</span>);
-</span></span><span style=display:flex><span><span style=color:#66d9ef>EXECUTE</span> insert_user(<span style=color:#e6db74>&#39;2&#39;</span>, <span style=color:#e6db74>&#39;User 2&#39;</span>);
-</span></span><span style=display:flex><span><span style=color:#66d9ef>EXECUTE</span> insert_user(<span style=color:#e6db74>&#39;3&#39;</span>, <span style=color:#e6db74>&#39;User 3&#39;</span>);
+Of course, Postgres has <a href="https://www.postgresql.org/docs/current/limits.html">the hard limit</a>. But before reaching the 1GB command limitation, the hardware limitations likely will be reached first.</p>
+<p>Who concerns about the command string limitation can read the code here:</p>
+<ul>
+<li><a href="https://github.com/postgres/postgres/blob/master/src/include/lib/stringinfo.h">StringInfo</a></li>
+<li><a href="https://github.com/postgres/postgres/blob/master/src/include/utils/memutils.h#L43">MaxAllocSize</a></li>
+</ul>
+<p>The INSERT command has long time execution and the limitation about the command string (as well as the hardware). To gain more performance, we can use COPY command or 3rd party tool like pg_bulkload.</p>
+<h3 id="copy-command">COPY command</h3>
+<p>The COPY command is native supported in Postgres. It is more efficient than INSERT command, because:</p>
+<ul>
+<li>It doesn&rsquo;t need to parse the SQL syntax. Just read the data file directly.</li>
+<li>It read the file by block, consumes less memory (eliminate the hardware limitation).</li>
+<li>It can disable WAL to move faster.</li>
+</ul>
+<h3 id="pg_bulkload">pg_bulkload</h3>
+<p>The pg_bulkload is a 3rd party tool. To use it, we need to install it along side with Postgres.
+It even faster than COPY command in case of large data set.</p>
+<ul>
+<li>It doesn&rsquo;t call the SQL command, ignore the parse and planner.</li>
+<li>It directly write to table heap file, not through the Postgres engine.</li>
+<li>It can bypass WAL,</li>
+<li>No trigger, no constraints, no index when loading.</li>
+</ul>
+<p>Of course, the data must be clean. With WAL off, there&rsquo;s no way to rollback. So we need to be careful.</p>
+<h3 id="benchmark">Benchmark</h3>
+<p>Let&rsquo;s compare the performance with inserting 1 million user records.
+Here is the result. We will use this alias:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Alias</th>
+          <th>Command</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>execute_psql_command</td>
+          <td>time docker exec -i postgres_instance psql -U postgres -d db</td>
+      </tr>
+      <tr>
+          <td>execute_pg_bulkload_command</td>
+          <td>time docker exec -i postgres_instance pg_bulkload -d db -U postgres</td>
+      </tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+      <tr>
+          <th>Method</th>
+          <th>Command</th>
+          <th>Time (second)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>INSERT</td>
+          <td>execute_psql_command &lt; _out/batch_create_1000000_users.sql</td>
+          <td>7.065</td>
+      </tr>
+      <tr>
+          <td>COPY</td>
+          <td>execute_psql_command -c &ldquo;\COPY users(id, name) FROM &lsquo;/users.csv&rsquo; CSV&rdquo;</td>
+          <td>2.148</td>
+      </tr>
+      <tr>
+          <td>pg_bulkload WAL on</td>
+          <td>execute_pg_bulkload_command /tmp/bulkload_on.ctl</td>
+          <td>2.089</td>
+      </tr>
+      <tr>
+          <td>pg_bulkload WAL off</td>
+          <td>execute_pg_bulkload_command /tmp/bulkload_off.ctl</td>
+          <td>1.776</td>
+      </tr>
+      <tr>
+          <td>pg_bulkload parralel</td>
+          <td>execute_pg_bulkload_command /tmp/bulkload_parralel.ctl</td>
+          <td>1.552</td>
+      </tr>
+  </tbody>
+</table>
+<p>At this amout of data, the pg_buldload is faster than COPY, but not much.
+The pg_buldload parralel won the race.</p>
+<h2 id="batch-insert-in-sqlc">Batch insert in SQLC</h2>
+<p><a href="https://github.com/sqlc-dev/sqlc">SQLC</a> is the tool generates Go code from SQL queries.
+<a href="https://github.com/jackc/pgx">pgx</a> is the Postgres driver for Go.</p>
+<p>Why this combo?</p>
+<ul>
+<li>Postgres has one more famous lib, it is <a href="https://github.com/lib/pq">pq</a>. But it is currently in maintenance mode and also recommends to use pgx.</li>
+<li>To deal with SQL, there are many opinions. Golang libs also provide ORM (like gorm). Or we can handle the SQL directly. Combining of generating code and writing SQL, SQLC is a good choice for simplicy and efficiency.</li>
+</ul>
+<h3 id="pgx-batch-opepration">pgx batch opepration</h3>
+<p>As mentioned above, with small amount of data, we can use INSERT command, even if they are separated like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> users (id, name) <span style="color:#66d9ef">VALUES</span> (<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;User 1&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> users (id, name) <span style="color:#66d9ef">VALUES</span> (<span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;User 2&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> users (id, name) <span style="color:#66d9ef">VALUES</span> (<span style="color:#e6db74">&#39;3&#39;</span>, <span style="color:#e6db74">&#39;User 3&#39;</span>);
+</span></span></code></pre></div><p>It is <em>acceptable</em>. When a SQL command is executed, Postgres will do a chain.</p>
+<p>SQL string → [Parse] → [Rewrite] → [Plan] → [Acquire locks] → [Execute] → [Return result]</p>
+<p>pgx provides the <strong>batch</strong> definition, that allows multiple commands to be executed in a single round trip.
+That makes the time processing reduced a little bit, but the Postgres server is still doing the same work for each command.</p>
+<p>We can write the SQL like this to use the batch operation from sqlc + pgx:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#75715e">-- name: BatchInsertUsers :batchexec
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> users (id, name)  <span style="color:#66d9ef">VALUES</span> (<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span>, <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ON</span> CONFLICT (id) <span style="color:#66d9ef">DO</span> <span style="color:#66d9ef">NOTHING</span>;
+</span></span></code></pre></div><p>We can tool it a little bit more with <strong>PREPARE STATEMENT</strong>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">PREPARE</span> insert_user(varchar, varchar) <span style="color:#66d9ef">AS</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> users (id, name) <span style="color:#66d9ef">VALUES</span> (<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">1</span>, <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">EXECUTE</span> insert_user(<span style="color:#e6db74">&#39;1&#39;</span>, <span style="color:#e6db74">&#39;User 1&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">EXECUTE</span> insert_user(<span style="color:#e6db74">&#39;2&#39;</span>, <span style="color:#e6db74">&#39;User 2&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">EXECUTE</span> insert_user(<span style="color:#e6db74">&#39;3&#39;</span>, <span style="color:#e6db74">&#39;User 3&#39;</span>);
 </span></span></code></pre></div><p>The parser and planner will be called only once. The execution is faster.
-But the reality is the batch operation still execute multiple commands.</p><p>Do I miss the INSERT command with multiple values? The answer is no. The SQLC is type-safe generator.
+But the reality is the batch operation still execute multiple commands.</p>
+<p>Do I miss the INSERT command with multiple values? The answer is no. The SQLC is type-safe generator.
 It need to know the params of the command before it generates the code.
-INSERT command with multiple values has the dynamic params, so the SQLC can&rsquo;t handle it.</p><h3 id=unnest-function>unnest function</h3><p>Luckily, Postgres has the <strong>unnest</strong> function, that can be used to convert an array to a set of rows.
-We can do the batch insert with a little bit tricky like this:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=display:flex><span><span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> users (id, name)
-</span></span><span style=display:flex><span><span style=color:#66d9ef>SELECT</span> <span style=color:#66d9ef>unnest</span>(<span style=color:#f92672>@</span>ids::text[]) <span style=color:#66d9ef>AS</span> id,
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>unnest</span>(<span style=color:#f92672>@</span><span style=color:#66d9ef>names</span>::text[]) <span style=color:#66d9ef>AS</span> name;
-</span></span></code></pre></div><p>Now, we can pass the params by 2 arrays that has the same length. Because the params is now determined (array type), SQLC can handle it normally.</p><h3 id=benchmark-1>Benchmark</h3><p>Let&rsquo;s do a small test with copy, batch insert and unnest insert.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>===</span> RUN   BenchmarkAllMethods/BatchInsert-Size-1000000
-</span></span><span style=display:flex><span>BenchmarkAllMethods/BatchInsert-Size-1000000
-</span></span><span style=display:flex><span>BenchmarkAllMethods/BatchInsert-Size-1000000-12                        <span style=color:#ae81ff>1</span>        <span style=color:#ae81ff>14823435666</span> ns/op       <span style=color:#ae81ff>1303606000</span> B/op  <span style=color:#ae81ff>9006197</span> allocs/op
-</span></span><span style=display:flex><span><span style=color:#f92672>===</span> RUN   BenchmarkAllMethods/CopyFrom-Size-1000000
-</span></span><span style=display:flex><span>BenchmarkAllMethods/CopyFrom-Size-1000000
-</span></span><span style=display:flex><span>BenchmarkAllMethods/CopyFrom-Size-1000000-12                           <span style=color:#ae81ff>1</span>        <span style=color:#ae81ff>5473882250</span> ns/op        <span style=color:#ae81ff>96364032</span> B/op    <span style=color:#ae81ff>3000087</span> allocs/op
-</span></span><span style=display:flex><span><span style=color:#f92672>===</span> RUN   BenchmarkAllMethods/Unnest-Size-1000000
-</span></span><span style=display:flex><span>BenchmarkAllMethods/Unnest-Size-1000000
-</span></span><span style=display:flex><span>BenchmarkAllMethods/Unnest-Size-1000000-12                             <span style=color:#ae81ff>1</span>        <span style=color:#ae81ff>7107586666</span> ns/op        <span style=color:#ae81ff>567170472</span> B/op   <span style=color:#ae81ff>2000092</span> allocs/op
+INSERT command with multiple values has the dynamic params, so the SQLC can&rsquo;t handle it.</p>
+<h3 id="unnest-function">unnest function</h3>
+<p>Luckily, Postgres has the <strong>unnest</strong> function, that can be used to convert an array to a set of rows.
+We can do the batch insert with a little bit tricky like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> users (id, name)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">unnest</span>(<span style="color:#f92672">@</span>ids::text[]) <span style="color:#66d9ef">AS</span> id,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">unnest</span>(<span style="color:#f92672">@</span><span style="color:#66d9ef">names</span>::text[]) <span style="color:#66d9ef">AS</span> name;
+</span></span></code></pre></div><p>Now, we can pass the params by 2 arrays that has the same length. Because the params is now determined (array type), SQLC can handle it normally.</p>
+<h3 id="benchmark-1">Benchmark</h3>
+<p>Let&rsquo;s do a small test with copy, batch insert and unnest insert.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   BenchmarkAllMethods/BatchInsert-Size-1000000
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/BatchInsert-Size-1000000
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/BatchInsert-Size-1000000-12                        <span style="color:#ae81ff">1</span>        <span style="color:#ae81ff">14823435666</span> ns/op       <span style="color:#ae81ff">1303606000</span> B/op  <span style="color:#ae81ff">9006197</span> allocs/op
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   BenchmarkAllMethods/CopyFrom-Size-1000000
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/CopyFrom-Size-1000000
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/CopyFrom-Size-1000000-12                           <span style="color:#ae81ff">1</span>        <span style="color:#ae81ff">5473882250</span> ns/op        <span style="color:#ae81ff">96364032</span> B/op    <span style="color:#ae81ff">3000087</span> allocs/op
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   BenchmarkAllMethods/Unnest-Size-1000000
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/Unnest-Size-1000000
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/Unnest-Size-1000000-12                             <span style="color:#ae81ff">1</span>        <span style="color:#ae81ff">7107586666</span> ns/op        <span style="color:#ae81ff">567170472</span> B/op   <span style="color:#ae81ff">2000092</span> allocs/op
 </span></span></code></pre></div><p>With 1 million records, COPY is the fastest method with 5.4 seconds, the Unnest is slower but quite near with 7.1 seconds.
-The batch insert is the slowest with 14.8 seconds and the huge memory usage of 1.3GB.</p><p>However the unnest method also consumes a lot of memory, about 567MB. Compare to COPY with just 96MB, it is not so good.</p><p>How about the size of 100 records?</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>===</span> RUN   BenchmarkAllMethods/BatchInsert-Size-100
-</span></span><span style=display:flex><span>BenchmarkAllMethods/BatchInsert-Size-100
-</span></span><span style=display:flex><span>BenchmarkAllMethods/BatchInsert-Size-100-12                  <span style=color:#ae81ff>624</span>           <span style=color:#ae81ff>1832595</span> ns/op           <span style=color:#ae81ff>92372</span> B/op        <span style=color:#ae81ff>927</span> allocs/op
-</span></span><span style=display:flex><span><span style=color:#f92672>===</span> RUN   BenchmarkAllMethods/CopyFrom-Size-100
-</span></span><span style=display:flex><span>BenchmarkAllMethods/CopyFrom-Size-100
-</span></span><span style=display:flex><span>BenchmarkAllMethods/CopyFrom-Size-100-12                    <span style=color:#ae81ff>1274</span>           <span style=color:#ae81ff>1017753</span> ns/op           <span style=color:#ae81ff>35979</span> B/op        <span style=color:#ae81ff>338</span> allocs/op
-</span></span><span style=display:flex><span><span style=color:#f92672>===</span> RUN   BenchmarkAllMethods/Unnest-Size-100
-</span></span><span style=display:flex><span>BenchmarkAllMethods/Unnest-Size-100
-</span></span><span style=display:flex><span>BenchmarkAllMethods/Unnest-Size-100-12                      <span style=color:#ae81ff>1156</span>           <span style=color:#ae81ff>1135188</span> ns/op           <span style=color:#ae81ff>42296</span> B/op        <span style=color:#ae81ff>223</span> allocs/op
+The batch insert is the slowest with 14.8 seconds and the huge memory usage of 1.3GB.</p>
+<p>However the unnest method also consumes a lot of memory, about 567MB. Compare to COPY with just 96MB, it is not so good.</p>
+<p>How about the size of 100 records?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   BenchmarkAllMethods/BatchInsert-Size-100
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/BatchInsert-Size-100
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/BatchInsert-Size-100-12                  <span style="color:#ae81ff">624</span>           <span style="color:#ae81ff">1832595</span> ns/op           <span style="color:#ae81ff">92372</span> B/op        <span style="color:#ae81ff">927</span> allocs/op
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   BenchmarkAllMethods/CopyFrom-Size-100
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/CopyFrom-Size-100
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/CopyFrom-Size-100-12                    <span style="color:#ae81ff">1274</span>           <span style="color:#ae81ff">1017753</span> ns/op           <span style="color:#ae81ff">35979</span> B/op        <span style="color:#ae81ff">338</span> allocs/op
+</span></span><span style="display:flex;"><span><span style="color:#f92672">===</span> RUN   BenchmarkAllMethods/Unnest-Size-100
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/Unnest-Size-100
+</span></span><span style="display:flex;"><span>BenchmarkAllMethods/Unnest-Size-100-12                      <span style="color:#ae81ff">1156</span>           <span style="color:#ae81ff">1135188</span> ns/op           <span style="color:#ae81ff">42296</span> B/op        <span style="color:#ae81ff">223</span> allocs/op
 </span></span></code></pre></div><p>The order is the same, but the difference between COPY and Unnest is not so much.
-The allocation of unnest is also the lowest (save Garbage collector).</p><p>So, we can use the trick to insert the batch records in SQLC.
-From benchmark, we can see that with small number of records, the unnest method is quite efficient.</p><h2 id=conclusion>Conclusion</h2><p>In this post, we have discussed about the batch insert directly in Postgres and indirectly through SQLC (Golang).
-Let&rsquo;s choose the suitable method for your case.</p></section><footer class="mt-12 flex flex-wrap"><a class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]" href=https://hoangnguyen689.github.io/fizi/tags/postgres>postgres</a><a class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]" href=https://hoangnguyen689.github.io/fizi/tags/psql>psql</a><a class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]" href=https://hoangnguyen689.github.io/fizi/tags/pg_bulkload>pg_bulkload</a><a class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]" href=https://hoangnguyen689.github.io/fizi/tags/unnest>unnest</a><a class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]" href=https://hoangnguyen689.github.io/fizi/tags/golang>golang</a><a class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]" href=https://hoangnguyen689.github.io/fizi/tags/pgx>pgx</a><a class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]" href=https://hoangnguyen689.github.io/fizi/tags/batch>batch</a><a class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]" href=https://hoangnguyen689.github.io/fizi/tags/sqlc>sqlc</a></footer></article></main><footer class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"><div class=mr-auto>&copy;2025<a class=link href=https://hoangnguyen689.github.io/fizi/>FIZI</a></div><a class="link mx-6" href=https://gohugo.io/ rel=noopener target=_blank>powered by hugo️️</a>️
-<a class=link href=https://github.com/nanxiaobei/hugo-paper rel=noopener target=_blank>hugo-paper</a></footer></body></html>
+The allocation of unnest is also the lowest (save Garbage collector).</p>
+<p>So, we can use the trick to insert the batch records in SQLC.
+From benchmark, we can see that with small number of records, the unnest method is quite efficient.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this post, we have discussed about the batch insert directly in Postgres and indirectly through SQLC (Golang).
+Let&rsquo;s choose the suitable method for your case.</p>
+</section>
+
+  <footer class="mt-12 flex flex-wrap"><a
+      class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/fizi/tags/postgres"
+      >postgres</a
+    ><a
+      class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/fizi/tags/psql"
+      >psql</a
+    ><a
+      class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/fizi/tags/pg_bulkload"
+      >pg_bulkload</a
+    ><a
+      class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/fizi/tags/unnest"
+      >unnest</a
+    ><a
+      class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/fizi/tags/golang"
+      >golang</a
+    ><a
+      class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/fizi/tags/pgx"
+      >pgx</a
+    ><a
+      class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/fizi/tags/batch"
+      >batch</a
+    ><a
+      class="mb-1.5 rounded-lg bg-black/[3%] px-5 py-1 no-underline hover:bg-black/[6%] ltr:mr-1.5 rtl:ml-1.5 dark:bg-white/[8%] dark:hover:bg-white/[12%]"
+      href="http://localhost:1313/fizi/tags/sqlc"
+      >sqlc</a
+    ></footer></article></main><footer
+  class="mx-auto flex h-[4.5rem] max-w-(--w) items-center px-8 text-xs tracking-wider uppercase opacity-60"
+>
+  <div class="mr-auto">&copy;2025<a class="link" href="http://localhost:1313/fizi/">FIZI</a></div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >powered by hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >hugo-paper</a
+  >
+</footer>
+</body>
+</html>
