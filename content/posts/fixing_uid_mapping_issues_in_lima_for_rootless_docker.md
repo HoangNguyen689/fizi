@@ -2,7 +2,7 @@
 date = '2025-04-16T00:23:00+09:00'
 draft = true
 title = 'Fixing UID Mapping Issues in Lima for Rootless Docker'
-tags = ['docker', 'lima', 'rootless', 'uidmap', 'user namespace']
+tags = ['docker', 'lima', 'rootless', 'uidmap']
 +++
 
 ## The Symptom
