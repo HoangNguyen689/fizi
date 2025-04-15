@@ -4,15 +4,11 @@ on:
   push:
     branches: [main]
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      HUGO_CACHEDIR: /tmp/hugo_cache
 
     steps:
       - name: Checkout source
@@ -27,11 +23,15 @@ jobs:
           hugo-version: '0.145.0'
           extended: true
 
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.HUGO_CACHEDIR }}
+          key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+              ${{ runner.os }}-hugomod-
+
       - name: Build site
         run: hugo --minify
-
-      - name: List public directory
-        run: ls -la ./public
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
