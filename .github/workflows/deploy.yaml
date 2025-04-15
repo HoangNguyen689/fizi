@@ -7,8 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      HUGO_CACHEDIR: /tmp/hugo_cache
 
     steps:
       - name: Checkout source
@@ -22,13 +20,6 @@ jobs:
         with:
           hugo-version: '0.145.0'
           extended: true
-
-      - uses: actions/cache@v4
-        with:
-          path: ${{ env.HUGO_CACHEDIR }}
-          key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-              ${{ runner.os }}-hugomod-
 
       - name: Build site
         run: hugo --minify
