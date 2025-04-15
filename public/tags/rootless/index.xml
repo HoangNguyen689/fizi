@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rootless on FIZI</title><link>https://hoangnguyen689.github.io/fizi/tags/rootless/</link><description>Recent content in Rootless on FIZI</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Wed, 16 Apr 2025 00:23:00 +0900</lastBuildDate><atom:link href="https://hoangnguyen689.github.io/fizi/tags/rootless/index.xml" rel="self" type="application/rss+xml"/><item><title>Fixing UID Mapping Issues in Lima for Rootless Docker</title><link>https://hoangnguyen689.github.io/fizi/posts/fixing_uid_mapping_issues_in_lima_for_rootless_docker/</link><pubDate>Wed, 16 Apr 2025 00:23:00 +0900</pubDate><guid>https://hoangnguyen689.github.io/fizi/posts/fixing_uid_mapping_issues_in_lima_for_rootless_docker/</guid><description>&lt;h2 id="the-symptom">The Symptom&lt;/h2>
+&lt;p>You’ve installed Lima using the default &lt;a href="https://github.com/lima-vm/lima/blob/4c82f35d50decbc2fc07af881317e687f7161344/templates/docker.yaml#L1">Docker template&lt;/a>, and when launching your instance, it gets stuck here:&lt;/p>
+&lt;pre tabindex="0">&lt;code>INFO[0057] [hostagent] Waiting for the optional requirement 1 of 1: &amp;#34;user probe 1/1&amp;#34;
+&lt;/code>&lt;/pre>&lt;p>That cryptic line basically means: Docker’s not ready yet.&lt;/p>
+&lt;p>Let’s SSH into the instance to investigate:&lt;/p>
+&lt;pre tabindex="0">&lt;code>limactl shell local
+&lt;/code>&lt;/pre>&lt;p>Then try to manually install Docker in rootless mode:&lt;/p>
+&lt;pre tabindex="0">&lt;code>dockerd-rootless-setuptool.sh install
+&lt;/code>&lt;/pre>&lt;p>Oops:&lt;/p>
+&lt;pre tabindex="0">&lt;code>[rootlesskit:parent] error: failed to setup UID/GID map: newuidmap 3326 [0 222586300 1 1 524288 1073741824] failed: newuidmap: write to uid_map failed: Invalid argument
+: exit status 1
+[ERROR] RootlessKit failed, see the error messages and https://rootlesscontaine.rs/getting-started/common/ . Set --force to ignore
+&lt;/code>&lt;/pre>&lt;p>So what happened here?&lt;/p></description></item></channel></rss>
