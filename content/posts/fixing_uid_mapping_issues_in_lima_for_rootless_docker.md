@@ -74,6 +74,9 @@ SUB_UID_MAX             600100000
 
 Aha! The max value for subordinate UIDs is about 600 million. Our mapping range (524,288 → +1 billion) exceeds this limit. That’s why newuidmap fails with an “Invalid argument”.
 
+The `dockerd-rootless-setuptool.sh` script only checks for id existence but not the id range.
+Ref is [here](https://github.com/moby/moby/blob/9c9a6cb9414a7b1b96d286bf4f25fbcd458c914c/contrib/dockerd-rootless-setuptool.sh#L239-L269).
+
 ## The Fix: Add Proper UID/GID Ranges
 
 To solve this, you can explicitly set a valid UID mapping that fits within the allowed range. Add the following lines after the *systemctl --user start dbus* line in your Lima config:
