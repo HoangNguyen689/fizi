@@ -7,7 +7,7 @@ tags = ['docker', 'lima', 'rootless', 'uidmap']
 
 ## The Symptom
 
-You’ve installed Lima using the default [Docker template](https://github.com/lima-vm/lima/blob/4c82f35d50decbc2fc07af881317e687f7161344/templates/docker.yaml#L1), and when launching your instance, it gets stuck here:
+You’ve installed Lima using the default [Docker template](https://github.com/lima-vm/lima/blob/4c82f35d50decbc2fc07af881317e687f7161344/templates/docker.yaml#L1) on macOS, and when launching your instance, it gets stuck here:
 
 ```
 INFO[0057] [hostagent] Waiting for the optional requirement 1 of 1: "user probe 1/1"
